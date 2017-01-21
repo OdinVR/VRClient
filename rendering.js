@@ -96,13 +96,17 @@ function spinLoop(delta) {
 }
 
 function stopSpin(model) {
-	modelsToRotate.forEach(function(rotation) {
-		if(rotation.model == model) {
-			var index = modelsToRotate.indexOf(rotation);
-			modelsToRotate = modelsToRotate.splice(index, 1);
-		}
-	});
 	
+	for(var i=0;i<modelsToRotate.length;i++) {
+		var rotation = modelsToRotate[i];
+		console.log("rotation stop:");
+		console.log(rotation);
+		if(rotation.model.uuid === model.uuid) {
+			console.log("remove that sh!t");
+			modelsToRotate.splice(i,1);
+			console.log(modelsToRotate);
+		}
+	}
 }
 
 var rotWorldMatrix;      

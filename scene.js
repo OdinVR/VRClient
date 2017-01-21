@@ -1,8 +1,3 @@
-//because I am so used to swift
-function print(str) {
-	console.log(str);
-}
-
 //Android housekeeping
 window.oncontextmenu = function(event) {
      event.preventDefault();
@@ -10,72 +5,78 @@ window.oncontextmenu = function(event) {
      return false;
 };
 
-function renderSceneInDocument(scene,domobj,width,height) {
-	
-}
 
-// Setup three.js WebGL renderer. Note: Antialiasing is a big performance hit.
-// Only enable it if you actually need to.
 var renderer = new THREE.WebGLRenderer({antialias: true});
-renderer.setPixelRatio(window.devicePixelRatio);
-
-// Append the canvas element created by the renderer to document body element.
-document.body.appendChild(renderer.domElement);
-
-// Create a three.js scene.
 var scene = new THREE.Scene();
 
-// Create a three.js camera.
-var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
 
-var controls = new THREE.VRControls(camera);
+var sceneWidth, sceneHeight, effect, camera, controls, manager;
 
-console.log("vr controls");
-console.log(controls);
-console.log("camera");
-console.log(camera);
+function createBaseScene() {
+	
+	sceneWidth = window.innerWidth;
+	sceneHeight = window.innerHeight;
+	
+	// Setup three.js WebGL renderer. Note: Antialiasing is a big performance hit.
+	// Only enable it if you actually need to.
+	
+	// Apply VR stereo rendering to renderer.
+	effect = new THREE.VREffect(renderer);
+	effect.setSize(sceneWidth,sceneHeight);
+	
+	// Append the canvas element created by the renderer to document body element
+	
+	// Create a three.js scene.
+	
+	// Create a three.js camera.
+	camera = new THREE.PerspectiveCamera(75, sceneWidth / sceneHeight, 0.1, 10000);
+	
+	controls = new THREE.VRControls(camera);
+	
+	console.log("vr controls");
+	console.log(controls);
+	console.log("camera");
+	console.log(camera);
+	
+	controls.standing = true;	
+	
+	// Create a VR manager helper to enter and exit VR mode.
+	var params = {
+	  hideButton: false, // Default: false.
+	  isUndistorted: false // Default: false.
+	};
+	manager = new WebVRManager(renderer, effect, params);
+	
+	// Create 3D objects.
+	var geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
+	var material = new THREE.MeshNormalMaterial();
+	
+	window.addEventListener('resize', onResize, true);
+	window.addEventListener('vrdisplaypresentchange', onResize, true);
 
-controls.standing = true;
+	addSceneLight(scene,"");
+	
+	setTimeout(function(){
+	  /*loadDAE("jupiter.dae",function(result) {
+		  //result.scene.position.z = -2;
+		  result.scene.position.y = 1;
+		  //result.scene.rotateY(Math.PI / 2);
+		  result.scene.rotateX(-Math.PI / 2);
+		  //scaleModel(result.scene,10);
+		  placeModelInFrontOfCamera(result.scene);
+		  startSpin(result.scene,0,0,1);
+		  console.log("Result scene:");
+		  console.log(result.scene);
+		  scene.add(result.scene);
+	  });*/
+	  buildScene();
+	},2000);
+}
 
-// Apply VR stereo rendering to renderer.
-var effect = new THREE.VREffect(renderer);
-effect.setSize(window.innerWidth, window.innerHeight);
-
-// Add a repeating grid as a skybox.
-setSkyboxStage(scene,"grid",12.5);
-
-// Create a VR manager helper to enter and exit VR mode.
-var params = {
-  hideButton: false, // Default: false.
-  isUndistorted: false // Default: false.
-};
-var manager = new WebVRManager(renderer, effect, params);
-
-// Create 3D objects.
-var geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
-var material = new THREE.MeshNormalMaterial();
-
-window.addEventListener('resize', onResize, true);
-window.addEventListener('vrdisplaypresentchange', onResize, true);
-
-addSceneLight(scene,"");
-
-setTimeout(function(){
-  loadDAE("jupiter.dae",function(result) {
-	  var container = new THREE.Object3D();
-	  container.children = [result.scene];
-	  //result.scene.position.z = -2;
-	  result.scene.position.y = 1;
-	  //result.scene.rotateY(Math.PI / 2);
-	  result.scene.rotateX(-Math.PI / 2);
-	  //scaleModel(result.scene,10);
-	  placeModelInFrontOfCamera(result.scene);
-	  startSpin(result.scene,0,0,1);
-	  console.log("Result scene:");
-	  console.log(result.scene);
-	  scene.add(container);
-  });
-},2000);
+//simulate a socket.io callback to start the scene
+setTimeout(function() {
+	renderInBody();
+}, 4000);
 
 // Request animation frame loop function
 var lastRender = 0;
