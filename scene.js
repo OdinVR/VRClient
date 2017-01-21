@@ -1,3 +1,7 @@
+//because I am so used to swift
+function print(str) {
+	console.log(str);
+}
 
 //Android housekeeping
 window.oncontextmenu = function(event) {
@@ -26,49 +30,19 @@ var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHei
 
 var controls = new THREE.VRControls(camera);
 
-controls.userHeight = 2;
-
 console.log("vr controls");
 console.log(controls);
 console.log("camera");
 console.log(camera);
 
 controls.standing = true;
-controls.standing = true;
 
 // Apply VR stereo rendering to renderer.
 var effect = new THREE.VREffect(renderer);
 effect.setSize(window.innerWidth, window.innerHeight);
 
-
 // Add a repeating grid as a skybox.
-var boxSize = 100;
-var loader = new THREE.TextureLoader();
-loader.load('img/box.png', onTextureLoaded);
-
-function onTextureLoaded(texture) {
-  texture.wrapS = THREE.RepeatWrapping;
-  texture.wrapT = THREE.RepeatWrapping;
-  texture.repeat.set(boxSize, boxSize);
-
-  var geometry = new THREE.BoxGeometry(boxSize, boxSize, boxSize);
-  var material = new THREE.MeshBasicMaterial({
-    map: texture,
-    color: 0x01BE00,
-    side: THREE.BackSide
-  });
-
-  // Align the skybox to the floor (which is at y=0).
-  skybox = new THREE.Mesh(geometry, material);
-  skybox.position.y = boxSize/2;
-  scene.add(skybox);
-
-  // For high end VR devices like Vive and Oculus, take into account the stage
-  // parameters provided.*/
-
-  setupStage();
-}
-
+setSkyboxStage(scene,"grid",12.5);
 
 // Create a VR manager helper to enter and exit VR mode.
 var params = {
@@ -80,13 +54,6 @@ var manager = new WebVRManager(renderer, effect, params);
 // Create 3D objects.
 var geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
 var material = new THREE.MeshNormalMaterial();
-var cube = new THREE.Mesh(geometry, material);
-
-// Position cube mesh to be right in front of you.
-cube.position.set(0, controls.userHeight, -1);
-
-// Add cube mesh to your three.js scene
-//scene.add(cube);
 
 window.addEventListener('resize', onResize, true);
 window.addEventListener('vrdisplaypresentchange', onResize, true);
@@ -116,9 +83,7 @@ function animate(timestamp) {
   var delta = Math.min(timestamp - lastRender, 500);
   lastRender = timestamp;
 
-  // Apply rotation to cube mesh
-  cube.rotation.y += delta * 0.0006;
-  
+  // Apply rotation to cube mesh  
   spinLoop(delta);
 
   controls.update();
@@ -155,16 +120,16 @@ function setStageDimensions(stage) {
   // Make the skybox fit the stage.
   var material = skybox.material;
   scene.remove(skybox);
-  /*
+  
   // Size the skybox according to the size of the actual stage.
   var geometry = new THREE.BoxGeometry(stage.sizeX, boxSize, stage.sizeZ);
   skybox = new THREE.Mesh(geometry, material);
 
   // Place it on the floor.
-  skybox.position.y = boxSize/2;
+  skybox.position.y = boxSize/2 - skyBoxY;
   scene.add(skybox);
-  */
+  
   // Place the cube in the middle of the scene, at user height.
-  cube.position.set(0, controls.userHeight, 0);
+  //cube.position.set(0, controls.userHeight, 0);
 }
 

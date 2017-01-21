@@ -27,8 +27,41 @@ function addSceneLight(scene,color) {
 	*/
 }
 
-function addSkybox() {
-	
+var skybox;
+var boxSize;
+var skyBoxY;
+
+function setSkyboxStage(scene,type,negypos) {
+	if(type == "grid") {
+		console.log("type grid");
+		boxSize = 25;
+		skyBoxY = negypos;
+		var loader = new THREE.TextureLoader();
+		loader.load('img/box.png', onTextureLoaded);
+	}
+}
+
+function onTextureLoaded(texture) {
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  texture.repeat.set(boxSize, boxSize);
+
+  var geometry = new THREE.BoxGeometry(boxSize, boxSize, boxSize);
+  var material = new THREE.MeshBasicMaterial({
+    map: texture,
+    color: 0x01BE00,
+    side: THREE.BackSide
+  });
+
+  // Align the skybox to the floor (which is at y=0).
+  skybox = new THREE.Mesh(geometry, material);
+  skybox.position.y = boxSize/2 - skyBoxY;
+  scene.add(skybox);
+
+  // For high end VR devices like Vive and Oculus, take into account the stage
+  // parameters provided.*/
+
+  setupStage();
 }
 
 function scaleModel(model,multiplier) {
@@ -36,7 +69,6 @@ function scaleModel(model,multiplier) {
 	model.scale.y *= multiplier;
 	model.scale.z *= multiplier;
 }
-
 
 function placeModelInFrontOfCamera(model) {
 	var box = modelSizeBox(model)
