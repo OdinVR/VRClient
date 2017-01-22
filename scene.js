@@ -6,9 +6,8 @@ window.oncontextmenu = function(event) {
 };
 
 
-var renderer = new THREE.WebGLRenderer({antialias: true});
+var renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
 var scene = new THREE.Scene();
-
 
 var sceneWidth, sceneHeight, effect, camera, controls, manager;
 
@@ -56,21 +55,17 @@ function createBaseScene() {
 
 	addSceneLight(scene,"");
 	
-	setTimeout(function(){
-	  /*loadDAE("jupiter.dae",function(result) {
-		  //result.scene.position.z = -2;
-		  result.scene.position.y = 1;
-		  //result.scene.rotateY(Math.PI / 2);
-		  result.scene.rotateX(-Math.PI / 2);
-		  //scaleModel(result.scene,10);
-		  placeModelInFrontOfCamera(result.scene);
-		  startSpin(result.scene,0,0,1);
-		  console.log("Result scene:");
-		  console.log(result.scene);
-		  scene.add(result.scene);
-	  });*/
-	  buildScene();
-	},2000);
+	buildInitialScene({
+	  	models: [{path: "jupiter.dae", posx: 0, posy: 0, posz: 0, scale: 1, rotx: -Math.PI / 2, roty: 0, rotz: 0, spin: true, spinaxis: 'Z'}],
+		skybox: "grid",
+		skyboxSize: 25,
+		skyboxPos: 12.5,
+		cameraHeight: 1.5,
+	});
+	
+	/*setTimeout(function() {
+		receiveSceneData({models: [{path: "jupiter.dae", posx: -3, posy: 0, posz: 0, scale: 1, rotx: -Math.PI / 2, roty: 0, rotz: 0, spin: false, spinaxis: 'Z'}]})
+	}, 10000);*/
 }
 
 //simulate a socket.io callback to start the scene

@@ -28,16 +28,20 @@ function addSceneLight(scene,color) {
 }
 
 var skybox;
+var skyboxType;
 var boxSize;
 var skyBoxY;
 
-function setSkyboxStage(scene,type,negypos) {
+function setSkyboxStage(scene,type,size,negypos) {
 	if(type == "grid") {
 		console.log("type grid");
-		boxSize = 25;
+		boxSize = size;
 		skyBoxY = negypos;
 		var loader = new THREE.TextureLoader();
 		loader.load('img/box.png', onTextureLoaded);
+	}
+	if(type == "sunsetgrad") {
+		setupStage();
 	}
 }
 

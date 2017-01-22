@@ -1,13 +1,7 @@
 
-var sceneData = {
-	models: [{path: "jupiter.dae", posx: 0, posy: 0, posz: 0, scale: 1, rotx: -Math.PI / 2, roty: 0, rotz: 0, spin: true, spinaxis: 'Z'}],
-	skybox: "grid",
-	skyboxSize: 25,
-	skyboxPos: 12.5,
-	cameraHeight: 1.5,
-}
-
 var sceneModels = [];
+var receivedFirstScene = false;
+var currentScene = {};
 
 function renderInBody() {
 	document.body.innerHTML = "";
@@ -16,16 +10,32 @@ function renderInBody() {
 	document.body.appendChild(renderer.domElement);
 }
 
+function receiveSceneData(data) {
+	if(receivedFirstScene == false) {
+		receivedFirstScene = true;
+		buildInitialScene(data);
+	} else {
+		updateScene(data);
+	}
+}
+
+function updateScene(data) {
+	placeModels(data.models);
+	
+}
+
 function buildInitialScene(data) {
-	setSkyboxStage(scene,sceneData.skybox,sceneData.skyboxPos);
-	var models = sceneData.models;
+	setSkyboxStage(scene,data.skybox,data.skyboxSize,data.skyboxPos);
+	var models = data.models;
 	placeModels(models);
 }
 
 function findModelInScene(path) {
+	console.log("scene models");
+	console.log(sceneModels);
 	for(var i=0;i<sceneModels.length;i++) {
 		var model = sceneModels[i];
-		if(model.path === path) {
+		if(model.id === path) {
 			return model.scene;
 		}
 	}
@@ -36,14 +46,15 @@ function placeModels(models) {
 	models.forEach(function(model) {
 		var modelInScene = findModelInScene(model.path);
 		if(modelInScene != null) {
+			console.log("model already in scene");
 			//update parameters, already in scene
 			modelInScene.position.x = model.posx;
 			modelInScene.position.y = model.posy;
 			modelInScene.position.z = model.posz;
-			modelInScene.rotateX(model.rotx);
-			modelInScene.rotateY(model.roty);
-			modelInScene.rotateZ(model.rotz);
-			if(model.spin === true) {
+			modelInScene.rotation.x = model.rotx;
+			modelInScene.rotation.y = model.roty;
+			modelInScene.rotation.z = model.rotz;
+			if(model.spin == 'true') {
 				if(model.spinaxis == 'X') {
 					startSpin(modelInScene,1,0,0);
 				} else if(model.spinaxis == 'Y') {
@@ -53,9 +64,8 @@ function placeModels(models) {
 				}
 			}
 			scaleModel(modelInScene,model.scale);
-			
 		} else {
-			loadDAE(model.path,function(result) {
+			loadDAE(getModelPathFromServer(model.path),function(result) {
 				if(model.posx == 0 && model.posy == 0 && model.posz == 0) {
 					placeModelInFrontOfCamera(result.scene);
 				} else {
@@ -63,12 +73,12 @@ function placeModels(models) {
 					result.scene.position.y = model.posy;
 					result.scene.position.z = model.posz;
 				}
-				result.scene.rotateX(model.rotx);
-				result.scene.rotateY(model.roty);
-				result.scene.rotateZ(model.rotz);
+				result.scene.rotation.x = model.rotx;
+				result.scene.rotation.y = model.roty;
+				result.scene.rotation.z = model.rotz;
 				console.log("scene uuid: " + result.scene.uuid);
 				stopSpin(result.scene);
-				if(model.spin === true) {
+				if(model.spin == 'true') {
 					if(model.spinaxis == 'X') {
 						startSpin(result.scene,1,0,0);
 					} else if(model.spinaxis == 'Y') {
@@ -85,10 +95,4 @@ function placeModels(models) {
 			});
 		}
 	});
-}
-
-function updateScene() {
-	if(sceneData) {
-		
-	}
 }
