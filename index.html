@@ -17,12 +17,19 @@ body {
   margin: 0px;
   padding: 0;
   overflow: hidden;
+  font-family: sans-serif;
+}
+a {
+	color: white;
 }
 </style>
 </head>
 
 <body>
-<h1 style="text-align: center">Please wait for the presenter to begin broadcasting.</h1>
+<h1 style="text-align: center">Welcome to OdinVR!</h1>
+<h3 style="text-align: center">Please enter your room code to join the presentation.</h3>
+<p  style="text-align: center"><input type="text" id="numField"></input></p>
+<h2 style="text-align: center" onclick="joinRoom();"><a href="#">Join</a></h2>
 </body>
 
 <script>
@@ -61,6 +68,11 @@ WebVRConfig = {
   //DIRTY_SUBMIT_FRAME_BINDINGS: true // default: false
 };
 </script>
+
+<script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
 
 <script src="http://buyweedfrom.me:6606/socket.io/socket.io.js"></script>
 
@@ -103,5 +115,12 @@ WebVRConfig = {
 <script src="remote.js"></script>
 
 <script src="scene.js"></script>
+
+<script>
+	function joinRoom() {
+		var numText = $("#numField").val();
+		
+	}
+</script>
 
 </html>

@@ -38,9 +38,21 @@ function setSkyboxStage(scene,type,size,negypos) {
 		boxSize = size;
 		skyBoxY = negypos;
 		var loader = new THREE.TextureLoader();
-		loader.load('img/box.png', onTextureLoaded);
+		loader.load('/vr/img/box.png', onTextureLoaded);
 	}
-	if(type == "sunsetgrad") {
+	if(type == "milkyway") {
+		var skyGeo = new THREE.SphereGeometry(size, 25, 25); 
+		var texture = THREE.ImageUtils.loadTexture( "/vr/skyboxes/milkyhd.jpg" );
+		var material = new THREE.MeshPhongMaterial({ 
+        	map: texture, 
+        });
+		var sky = new THREE.Mesh(skyGeo, material);
+	    sky.material.side = THREE.BackSide;
+	    scene.add(sky);
+		setupStage();
+	}
+	if(type == "sunset") {
+		document.body.style.background = "linear-gradient(#de6161 , #2657eb)";
 		setupStage();
 	}
 }
@@ -69,9 +81,9 @@ function onTextureLoaded(texture) {
 }
 
 function scaleModel(model,multiplier) {
-	model.scale.x *= multiplier;
-	model.scale.y *= multiplier;
-	model.scale.z *= multiplier;
+	model.scale.x = multiplier * 0.0254;
+	model.scale.y = multiplier * 0.0254;
+	model.scale.z = multiplier * 0.0254;
 }
 
 function placeModelInFrontOfCamera(model) {

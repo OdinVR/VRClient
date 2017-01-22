@@ -11,17 +11,16 @@ var scene = new THREE.Scene();
 
 var sceneWidth, sceneHeight, effect, camera, controls, manager;
 
-function createBaseScene() {
-	
-	sceneWidth = window.innerWidth;
-	sceneHeight = window.innerHeight;
-	
+function createBaseScene(width,height) {
+
+	sceneWidth = width;
+	sceneHeight = height;
+
 	// Setup three.js WebGL renderer. Note: Antialiasing is a big performance hit.
 	// Only enable it if you actually need to.
 	
 	// Apply VR stereo rendering to renderer.
 	effect = new THREE.VREffect(renderer);
-	effect.setSize(sceneWidth,sceneHeight);
 	
 	// Append the canvas element created by the renderer to document body element
 	
@@ -37,11 +36,11 @@ function createBaseScene() {
 	console.log("camera");
 	console.log(camera);
 	
-	controls.standing = true;	
+	controls.standing = true;
 	
 	// Create a VR manager helper to enter and exit VR mode.
 	var params = {
-	  hideButton: false, // Default: false.
+	  hideButton: false, // Default: false.	`
 	  isUndistorted: false // Default: false.
 	};
 	manager = new WebVRManager(renderer, effect, params);
@@ -50,18 +49,24 @@ function createBaseScene() {
 	var geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
 	var material = new THREE.MeshNormalMaterial();
 	
-	window.addEventListener('resize', onResize, true);
+	if(width == window.innerWidth) {
+		window.addEventListener('resize', onResize, true);
+	}
 	window.addEventListener('vrdisplaypresentchange', onResize, true);
 
 	addSceneLight(scene,"");
 	
-	buildInitialScene({
-	  	models: [{path: "jupiter.dae", posx: 0, posy: 0, posz: 0, scale: 1, rotx: -Math.PI / 2, roty: 0, rotz: 0, spin: true, spinaxis: 'Z'}],
-		skybox: "grid",
-		skyboxSize: 25,
+	effect.setSize(sceneWidth,sceneHeight);
+	camera.aspect = sceneWidth / sceneHeight;
+	camera.updateProjectionMatrix();
+	
+	/*buildInitialScene({
+	  	models: [{path: "/vr/jupiter.dae", posx: 0, posy: 0, posz: 0, scale: 1, rotx: -Math.PI / 2, roty: 0, rotz: 0, spin: 'true', spinaxis: 'Z'}],
+		skybox: "milkyway",
+		skyboxSize: 50,
 		skyboxPos: 12.5,
 		cameraHeight: 1.5,
-	});
+	});*/ 
 	
 	/*setTimeout(function() {
 		receiveSceneData({models: [{path: "jupiter.dae", posx: -3, posy: 0, posz: 0, scale: 1, rotx: -Math.PI / 2, roty: 0, rotz: 0, spin: false, spinaxis: 'Z'}]})
@@ -69,9 +74,9 @@ function createBaseScene() {
 }
 
 //simulate a socket.io callback to start the scene
-setTimeout(function() {
+/*setTimeout(function() {
 	renderInBody();
-}, 4000);
+}, 4000);x Z*/
 
 // Request animation frame loop function
 var lastRender = 0;

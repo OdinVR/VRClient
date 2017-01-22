@@ -6,11 +6,19 @@ var currentScene = {};
 function renderInBody() {
 	document.body.innerHTML = "";
 	renderer.setPixelRatio(window.devicePixelRatio);
-	createBaseScene();
+	createBaseScene(window.innerWidth,window.innerHeight);
 	document.body.appendChild(renderer.domElement);
 }
 
+function renderInPanel(width,height) {
+	var panel = document.getElementById("3dscene");
+	renderer.setPixelRatio(window.devicePixelRatio);
+	createBaseScene(width,height);
+	panel.appendChild(renderer.domElement);
+}
+
 function receiveSceneData(data) {
+	console.log("receive scene data");
 	if(receivedFirstScene == false) {
 		receivedFirstScene = true;
 		buildInitialScene(data);
@@ -21,7 +29,6 @@ function receiveSceneData(data) {
 
 function updateScene(data) {
 	placeModels(data.models);
-	
 }
 
 function buildInitialScene(data) {
@@ -54,12 +61,13 @@ function placeModels(models) {
 			modelInScene.rotation.x = model.rotx;
 			modelInScene.rotation.y = model.roty;
 			modelInScene.rotation.z = model.rotz;
+			stopSpin(result.scene);
 			if(model.spin == 'true') {
-				if(model.spinaxis == 'X') {
+				if(model.spinaxis.toUpperCase() == 'X') {
 					startSpin(modelInScene,1,0,0);
-				} else if(model.spinaxis == 'Y') {
+				} else if(model.spinaxis.toUpperCase() == 'Y') {
 					startSpin(modelInScene,0,1,0);
-				} else if(model.spinaxis == 'Z') {
+				} else if(model.spinaxis.toUpperCase() == 'Z') {
 					startSpin(modelInScene,0,0,1);
 				}
 			}
@@ -79,18 +87,18 @@ function placeModels(models) {
 				console.log("scene uuid: " + result.scene.uuid);
 				stopSpin(result.scene);
 				if(model.spin == 'true') {
-					if(model.spinaxis == 'X') {
+					if(model.spinaxis.toUpperCase() == 'X') {
 						startSpin(result.scene,1,0,0);
-					} else if(model.spinaxis == 'Y') {
+					} else if(model.spinaxis.toUpperCase() == 'Y') {
 						startSpin(result.scene,0,1,0);
-					} else if(model.spinaxis == 'Z') {
+					} else if(model.spinaxis.toUpperCase() == 'Z') {
 						startSpin(result.scene,0,0,1);
 					}
 				}
 				scaleModel(result.scene,model.scale);
 				console.log("Result scene:");
 				console.log(result.scene);
-				sceneModels.push({scene: result.scene, id: model.path});
+				sceneModels.push({scene: result.scene, id: model.path, originalScale: result.scene.scal});
 				scene.add(result.scene);
 			});
 		}
