@@ -33,6 +33,7 @@ var boxSize;
 var skyBoxY;
 
 function setSkyboxStage(scene,type,size,negypos) {
+	scene.remove(skybox);
 	if(type == "grid") {
 		console.log("type grid");
 		boxSize = size;
@@ -40,20 +41,20 @@ function setSkyboxStage(scene,type,size,negypos) {
 		var loader = new THREE.TextureLoader();
 		loader.load('/vr/img/box.png', onTextureLoaded);
 	}
-	if(type == "milkyway") {
+	if(type == "milky") {
 		var skyGeo = new THREE.SphereGeometry(size, 25, 25); 
 		var texture = THREE.ImageUtils.loadTexture( "/vr/skyboxes/milkyhd.jpg" );
 		var material = new THREE.MeshPhongMaterial({ 
         	map: texture, 
         });
-		var sky = new THREE.Mesh(skyGeo, material);
-	    sky.material.side = THREE.BackSide;
-	    scene.add(sky);
-		setupStage();
+		skybox = new THREE.Mesh(skyGeo, material);
+	    skybox.material.side = THREE.BackSide;
+	    scene.add(skybox);
+		//setupStage();
 	}
 	if(type == "sunset") {
 		document.body.style.background = "linear-gradient(#de6161 , #2657eb)";
-		setupStage();
+		//setupStage();
 	}
 }
 
@@ -77,7 +78,7 @@ function onTextureLoaded(texture) {
   // For high end VR devices like Vive and Oculus, take into account the stage
   // parameters provided.*/
 
-  setupStage();
+  //setupStage();
 }
 
 function scaleModel(model,multiplier) {

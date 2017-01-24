@@ -6,7 +6,7 @@ var viewPlaced = false;
 
 function connectToRoom(roomStr) {
 	var roomNum = parseInt(roomStr);
-	sio.emit("room",{room: roomnum});
+	sio.emit("room",{room: roomNum});
 
 	sio.on("update",function(data) {
 		console.log("The socket has spoken");

@@ -19,6 +19,7 @@ function renderInPanel(width,height) {
 
 function receiveSceneData(data) {
 	console.log("receive scene data");
+	console.log(data);
 	if(receivedFirstScene == false) {
 		receivedFirstScene = true;
 		buildInitialScene(data);
@@ -29,9 +30,14 @@ function receiveSceneData(data) {
 
 function updateScene(data) {
 	placeModels(data.models);
+	if(currentScene.skybox != data.skybox || currentScene.skyboxSize != data.skyboxSize || currentScene.skyboxPos != data.skyboxPos) {
+		setSkyboxStage(scene,data.skybox,data.skyboxSize,data.skyboxPos);
+	}
+	currentScene = data;
 }
 
 function buildInitialScene(data) {
+	currentScene = data;
 	setSkyboxStage(scene,data.skybox,data.skyboxSize,data.skyboxPos);
 	var models = data.models;
 	placeModels(models);
@@ -61,7 +67,7 @@ function placeModels(models) {
 			modelInScene.rotation.x = model.rotx;
 			modelInScene.rotation.y = model.roty;
 			modelInScene.rotation.z = model.rotz;
-			stopSpin(result.scene);
+			stopSpin(modelInScene);
 			if(model.spin == 'true') {
 				if(model.spinaxis.toUpperCase() == 'X') {
 					startSpin(modelInScene,1,0,0);

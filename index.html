@@ -29,7 +29,7 @@ a {
 <h1 style="text-align: center">Welcome to OdinVR!</h1>
 <h3 style="text-align: center">Please enter your room code to join the presentation.</h3>
 <p  style="text-align: center"><input type="text" id="numField"></input></p>
-<h2 style="text-align: center" onclick="joinRoom();"><a href="#">Join</a></h2>
+<h2 style="text-align: center"><a href="#" onclick="joinRoom();">Join</a></h2>
 </body>
 
 <script>
@@ -119,7 +119,8 @@ WebVRConfig = {
 <script>
 	function joinRoom() {
 		var numText = $("#numField").val();
-		
+		connectToRoom(numText);
+		document.body.innerHTML = "<h1>Waiting for instructor to start presentation...</h1>";
 	}
 </script>
 

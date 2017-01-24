@@ -60,6 +60,8 @@ function createBaseScene(width,height) {
 	camera.aspect = sceneWidth / sceneHeight;
 	camera.updateProjectionMatrix();
 	
+	setupStage();
+	
 	/*buildInitialScene({
 	  	models: [{path: "/vr/jupiter.dae", posx: 0, posy: 0, posz: 0, scale: 1, rotx: -Math.PI / 2, roty: 0, rotz: 0, spin: 'true', spinaxis: 'Z'}],
 		skybox: "milkyway",
