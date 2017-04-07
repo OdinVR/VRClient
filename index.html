@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0, shrink-to-fit=no">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-<meta id="top-bar" name="theme-color" content="#D81B60" />
+<meta class="top-bar" name="theme-color" content="#D81B60" />
+<meta class="top-bar" name="apple-mobile-web-app-status-bar-style" content="black">
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
 </head>
@@ -129,7 +129,7 @@ WebVRConfig = {
 		document.body.innerHTML = "";
         $('body').load('lobby.html');
         $('body').css('background-color', '#F5F5F5');
-        $('#top-bar').attr('content', '#3F51B5');
+        $('.top-bar').attr('content', '#3F51B5');
 	}
 </script>
 

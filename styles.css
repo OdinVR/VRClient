@@ -136,7 +136,7 @@ h3 {
     outline: none;
 }
 
-#top-bar {
+.top-bar {
     -webkit-transition: all 1.0s ease-out;
     -moz-transition: all 1.0s ease-out;
     -o-transition: all 1.0s ease-out;
