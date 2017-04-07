@@ -136,6 +136,18 @@ h3 {
     outline: none;
 }
 
+#top-bar {
+    -webkit-transition: all 1.0s ease-out;
+    -moz-transition: all 1.0s ease-out;
+    -o-transition: all 1.0s ease-out;
+    transition: all 1.0s ease-out; /* ease-out */
+
+    -webkit-transition-timing-function: ease-out;
+    -moz-transition-timing-function: ease-out;
+    -o-transition-timing-function: ease-out;
+    transition-timing-function: ease-out; /* ease-out */
+}
+
 .showbox {
   position: relative;
   top: 0;

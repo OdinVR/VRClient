@@ -8,7 +8,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-<meta name="theme-color" content="#D81B60" />
+<meta id="top-bar" name="theme-color" content="#D81B60" />
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
 </head>
@@ -119,8 +119,8 @@ WebVRConfig = {
         $('#particles-js').css('opacity', 1);
 
         particlesJS.load('particles-js', 'particles.json', function() {
-              console.log('callback - particles.js config loaded');
-            });
+            console.log('callback - particles.js config loaded');
+        });
     });
 
 	function joinRoom() {
@@ -129,6 +129,7 @@ WebVRConfig = {
 		document.body.innerHTML = "";
         $('body').load('lobby.html');
         $('body').css('background-color', '#F5F5F5');
+        $('#top-bar').attr('content', '#3F51B5');
 	}
 </script>
 
