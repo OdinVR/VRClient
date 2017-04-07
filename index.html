@@ -8,28 +8,20 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-<style>
-body {
-  width: 100%;
-  height: 100%;
-  background-color: #000;
-  color: #fff;
-  margin: 0px;
-  padding: 0;
-  overflow: hidden;
-  font-family: sans-serif;
-}
-a {
-	color: white;
-}
-</style>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
 </head>
 
 <body>
-<h1 style="text-align: center">Welcome to OdinVR!</h1>
-<h3 style="text-align: center">Please enter your room code to join the presentation.</h3>
-<p  style="text-align: center"><input type="text" id="numField"></input></p>
-<h2 style="text-align: center"><a href="#" onclick="joinRoom();">Join</a></h2>
+
+    <div id="particles-js"></div>
+
+    <div id="content-container">
+        <h1 style="text-align: center">Welcome to OdinVR!</h1>
+        <h3 style="text-align: center">Please enter your room code to join the presentation.</h3>
+        <p  style="text-align: center"><input type="text" id="numField" maxlength="5"></input></p>
+        <h2 style="text-align: center"><a href="#" data-wipe="Join" onclick="joinRoom();">Join</a></h2>
+    </div>
 </body>
 
 <script>
@@ -116,11 +108,26 @@ WebVRConfig = {
 
 <script src="scene.js"></script>
 
+<script src="particles.js"></script>
+
 <script>
+
+    $(function() {
+        $('body').css('background-color', '#D81B60');
+        $('#numField').css('background-color', '#AD1457');
+        $('#particles-js').css('opacity', 1);
+
+        particlesJS.load('particles-js', 'particles.json', function() {
+              console.log('callback - particles.js config loaded');
+            });
+    });
+
 	function joinRoom() {
 		var numText = $("#numField").val();
 		connectToRoom(numText);
-		document.body.innerHTML = "<h1>Waiting for instructor to start presentation...</h1>";
+		document.body.innerHTML = "";
+        $('body').load('lobby.html');
+        $('body').css('background-color', '#F5F5F5');
 	}
 </script>
 
