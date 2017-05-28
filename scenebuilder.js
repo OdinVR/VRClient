@@ -41,6 +41,8 @@ function buildInitialScene(data) {
 	setSkyboxStage(scene,data.skybox,data.skyboxSize,data.skyboxPos);
 	var models = data.models;
 	placeModels(models);
+	startInteraction();
+	testReticulum();
 }
 
 function findModelInScene(path) {

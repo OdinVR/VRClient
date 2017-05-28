@@ -61,7 +61,7 @@ function createBaseScene(width,height) {
 	camera.updateProjectionMatrix();
 	
 	setupStage();
-	
+		
 	/*buildInitialScene({
 	  	models: [{path: "/vr/jupiter.dae", posx: 0, posy: 0, posz: 0, scale: 1, rotx: -Math.PI / 2, roty: 0, rotz: 0, spin: 'true', spinaxis: 'Z'}],
 		skybox: "milkyway",
@@ -88,6 +88,8 @@ function animate(timestamp) {
 
   // Apply rotation to cube mesh  
   spinLoop(delta);
+
+  Reticulum.update();
 
   controls.update();
   // Render the scene through the manager.

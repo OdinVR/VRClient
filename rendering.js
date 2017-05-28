@@ -42,20 +42,29 @@ function setSkyboxStage(scene,type,size,negypos) {
 		loader.load('/vr/img/box.png', onTextureLoaded);
 	}
 	if(type == "milky") {
-		var skyGeo = new THREE.SphereGeometry(size, 25, 25); 
-		var texture = THREE.ImageUtils.loadTexture( "/vr/skyboxes/milkyhd.jpg" );
-		var material = new THREE.MeshPhongMaterial({ 
-        	map: texture, 
-        });
-		skybox = new THREE.Mesh(skyGeo, material);
-	    skybox.material.side = THREE.BackSide;
-	    scene.add(skybox);
-		//setupStage();
+		loadSkysphere("/vr/skyboxes/milkyhd.jpg")
+	}
+	if(type == "fores") {
+		loadSkysphere("/vr/skyboxes/forest.png")
+	}
+	if(type == "icela") {
+		loadSkysphere("/vr/skyboxes/iceland.jpg")
 	}
 	if(type == "sunset") {
 		document.body.style.background = "linear-gradient(#de6161 , #2657eb)";
 		//setupStage();
 	}
+}
+
+function loadSkysphere(path,size) {
+	var skyGeo = new THREE.SphereGeometry(size, 64, 64); 
+	var texture = THREE.ImageUtils.loadTexture(path);
+	var material = new THREE.MeshPhongMaterial({ 
+       	map: texture, 
+    });
+	skybox = new THREE.Mesh(skyGeo, material);
+    skybox.material.side = THREE.BackSide;
+    scene.add(skybox);
 }
 
 function onTextureLoaded(texture) {
