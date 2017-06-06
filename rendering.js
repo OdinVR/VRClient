@@ -50,6 +50,9 @@ function setSkyboxStage(scene,type,size,negypos) {
 	if(type == "icela") {
 		loadSkysphere("/vr/skyboxes/iceland.jpg")
 	}
+	if(type == "purdu") {
+		loadSkysphere("/vr/skyboxes/purdue.jpg")
+	}
 	if(type == "sunset") {
 		document.body.style.background = "linear-gradient(#de6161 , #2657eb)";
 		//setupStage();
@@ -62,6 +65,8 @@ function loadSkysphere(path,size) {
 	var material = new THREE.MeshPhongMaterial({ 
        	map: texture, 
     });
+    texture.wrapS = THREE.RepeatWrapping;
+    material.map.repeat.x = -1;
 	skybox = new THREE.Mesh(skyGeo, material);
     skybox.material.side = THREE.BackSide;
     scene.add(skybox);
@@ -78,7 +83,6 @@ function onTextureLoaded(texture) {
     color: 0x01BE00,
     side: THREE.BackSide
   });
-
   // Align the skybox to the floor (which is at y=0).
   skybox = new THREE.Mesh(geometry, material);
   skybox.position.y = boxSize/2 - skyBoxY;
@@ -88,6 +92,13 @@ function onTextureLoaded(texture) {
   // parameters provided.*/
 
   //setupStage();
+}
+
+function createText(text,font,weight,style,size) {
+	var textShapes = THREE.FontUtils.generateShapes( text, options );
+var text = new THREE.ShapeGeometry( textShapes );
+var textMesh = new THREE.Mesh( text, new THREE.MeshBasicMaterial( { color: 0xff0000 } ) ) ;
+scene.add(textMesh);
 }
 
 function scaleModel(model,multiplier) {

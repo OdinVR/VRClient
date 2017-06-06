@@ -71,3 +71,7 @@ function addMesh(geo) {
 	});
 	scene.add( object );
 }
+
+function poll(question) {
+	
+}

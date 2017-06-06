@@ -126,13 +126,15 @@ WebVRConfig = {
             console.log('callback - particles.js config loaded');
         });
         
-        $(document).keypress(function(e) {
-		  if(e.which == 32) {
-		    // load development scene
-		    var sceneJSON = {
+    });
+
+	function joinRoom() {
+		var numText = $("#numField").val();
+		if(numText === "") {
+			var sceneJSON = {
 				models: [],
-				skybox: "icela",
-				skyboxSize: "50",
+				skybox: "purdu",
+				skyboxSize: "200",
 				skyboxPos: "25",
 				cameraHeight: 1.5,
 			};
@@ -141,12 +143,8 @@ WebVRConfig = {
 				viewPlaced = true;
 			}
 			receiveSceneData(sceneJSON);
-		  }
-		});
-    });
-
-	function joinRoom() {
-		var numText = $("#numField").val();
+			return;
+		}
 		connectToRoom(numText);
 		document.body.innerHTML = "";
         $('body').load('lobby.html');

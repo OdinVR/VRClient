@@ -42,7 +42,7 @@ function buildInitialScene(data) {
 	var models = data.models;
 	placeModels(models);
 	startInteraction();
-	testReticulum();
+	//testReticulum();
 }
 
 function findModelInScene(path) {
