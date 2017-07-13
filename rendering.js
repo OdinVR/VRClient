@@ -39,7 +39,7 @@ function setSkyboxStage(scene,type,size,negypos) {
 		boxSize = size;
 		skyBoxY = negypos;
 		var loader = new THREE.TextureLoader();
-		loader.load('/vr/img/box.png', onTextureLoaded);
+		loader.load('/img/box.png', onTextureLoaded);
 	}
 	if(type == "milky") {
 		loadSkysphere("/vr/skyboxes/milkyhd.jpg")

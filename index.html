@@ -20,7 +20,7 @@
     <div id="content-container">
         <h1 style="text-align: center">Welcome to OdinVR!</h1>
         <h3 style="text-align: center">Please enter your room code to join the presentation.</h3>
-        <p  style="text-align: center"><input type="text" id="numField" maxlength="5"></input></p>
+        <p  style="text-align: center"><input type="text" id="numField" maxlength="7"></input></p>
         <h2 style="text-align: center"><a href="#" data-wipe="Join" onclick="joinRoom();">Join</a></h2>
     </div>
 </body>
@@ -67,7 +67,9 @@ WebVRConfig = {
   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
   crossorigin="anonymous"></script>
 
-<script src="http://buyweedfrom.me:6606/socket.io/socket.io.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+
+<!-- <script src="http://localhost:6606/socket.io/socket.io.js"></script> -->
 
 <!--
   A polyfill for Promises. Needed for IE and Edge.
@@ -130,11 +132,12 @@ WebVRConfig = {
 
 	function joinRoom() {
 		var numText = $("#numField").val();
+		console.log("numField val",$("#numField").val(),numText);
 		if(numText === "") {
 			var sceneJSON = {
-				models: [],
-				skybox: "purdu",
-				skyboxSize: "200",
+				models: [{path: "edb61b2b6dfc7e2d2e11e87f9bf41b71", posx: 0, posy: 0, posz: 0, scale: 3, rotx: 0, roty: 0, rotz: 0, spin: true, spinaxis: 'X'}],
+				skybox: "grid",
+				skyboxSize: "50",
 				skyboxPos: "25",
 				cameraHeight: 1.5,
 			};
@@ -146,7 +149,7 @@ WebVRConfig = {
 			return;
 		}
 		connectToRoom(numText);
-		document.body.innerHTML = "";
+		//document.body.innerHTML = "";
         $('body').load('lobby.html');
         $('body').css('background-color', '#F5F5F5');
         $('.top-bar').attr('content', '#3F51B5');
