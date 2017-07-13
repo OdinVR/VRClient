@@ -148,11 +148,11 @@ WebVRConfig = {
 			receiveSceneData(sceneJSON);
 			return;
 		}
-		connectToRoom(numText);
-		//document.body.innerHTML = "";
-        $('body').load('lobby.html');
-        $('body').css('background-color', '#F5F5F5');
-        $('.top-bar').attr('content', '#3F51B5');
+		connectToRoom(numText,function(){
+			$('body').load('lobby.html');
+		    $('body').css('background-color', '#F5F5F5');
+		    $('.top-bar').attr('content', '#3F51B5');
+		});        
 	}
 </script>
 

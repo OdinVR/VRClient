@@ -4,32 +4,35 @@ var sio = io.connect(server);
 
 var viewPlaced = false;
 
-function connectToRoom(roomStr) {
-	sio.emit("room",{room: roomStr});
-
-	sio.on('accessResponse',function(data){
-		if(!data.error) {
-			console.log(data);
-			if(viewPlaced == false) {
-				renderInBody();
-				viewPlaced = true;
-			}
-			receiveSceneData(data);
-		} else {
-			alert(data.error);
-		}
-	});
-
-	sio.on("update",function(data) {
-		console.log("The socket has spoken");
+sio.on('accessResponse',function(data){
+	console.log("Access reponse",data);
+	if(!data.error) {
 		console.log(data);
+		callback();
 		if(viewPlaced == false) {
 			renderInBody();
 			viewPlaced = true;
 		}
 		receiveSceneData(data);
+	} else {
+		alert(data.error);
+	}
+});
+
+sio.on("update",function(data) {
+	console.log("The socket has spoken");
+	console.log(data);
+	if(viewPlaced == false) {
+		renderInBody();
+		viewPlaced = true;
+	}
+	receiveSceneData(data);
+});
+
+function connectToRoom(roomStr,callback) {
+	sio.emit("room",{room: roomStr});
+
 	
-	});
 }
 
 function getModelPathFromServer(directory) {
